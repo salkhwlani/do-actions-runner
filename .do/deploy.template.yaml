@@ -14,6 +14,6 @@ spec:
       scope: RUN_TIME
       value: Repository name
     git:
-      branch: main
-      repo_clone_url: https://github.com/ThewBear/do-actions-runner.git
+      branch: patch-1
+      repo_clone_url: https://github.com/salkhwlani/do-actions-runner.git
     name: do-actions-runner
