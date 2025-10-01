@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -eEuo pipefail
 
+# Start simple HTTP health check server on port 8080
+health_check_server() {
+  while true; do
+    echo -e "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK" | nc -l -p 8080 -q 1 > /dev/null 2>&1
+  done
+}
+
+# Start health check in background
+health_check_server &
+HEALTH_PID=$!
+
 if [ -z "${TOKEN:-}" ]
 then
   echo "TOKEN is required"
@@ -23,6 +34,7 @@ fi
 RUNNER_TOKEN=$(curl -s -X POST -H "authorization: token ${TOKEN}" "https://api.github.com/${API_PATH}/actions/runners/registration-token" | jq -r .token)
 
 cleanup() {
+  kill $HEALTH_PID 2>/dev/null || true
   ./config.sh remove --token "${RUNNER_TOKEN}"
 }
 
@@ -35,5 +47,4 @@ cleanup() {
 trap 'cleanup' SIGTERM
 
 ./run.sh "$@" &
-
 wait $!
