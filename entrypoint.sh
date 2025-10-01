@@ -38,7 +38,7 @@ cleanup() {
   ./config.sh remove --token "${RUNNER_TOKEN}"
 }
 
-./config.sh \
+sudo RUNNER_ALLOW_RUNASROOT=true ./config.sh \
   --url "https://github.com/${CONFIG_PATH}" \
   --token "${RUNNER_TOKEN}" \
   --name "${NAME:-$(hostname)}" \
