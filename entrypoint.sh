@@ -47,5 +47,5 @@ cleanup() {
 
 trap 'cleanup' SIGTERM
 
-./run.sh "$@" &
+sudo RUNNER_ALLOW_RUNASROOT=true ./run.sh "$@" &
 wait $!
