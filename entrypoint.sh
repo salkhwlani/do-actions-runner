@@ -42,8 +42,9 @@ sudo RUNNER_ALLOW_RUNASROOT=true ./config.sh \
   --url "https://github.com/${CONFIG_PATH}" \
   --token "${RUNNER_TOKEN}" \
   --name "${NAME:-$(hostname)}" \
-  --runnergroup self-hosted
-  --unattended
+  --runnergroup self-hosted \
+  --unattended \
+  --replace
 
 trap 'cleanup' SIGTERM
 
